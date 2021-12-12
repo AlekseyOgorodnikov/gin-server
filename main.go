@@ -1,7 +1,7 @@
 package main
 
 import (
-	"net/http"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,11 +9,14 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.GET("/welcome", func(c *gin.Context) {
-		firstname := c.DefaultQuery("firstname", "Guest")
-		lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+	router.POST("/post", func(c *gin.Context) {
 
-		c.String(http.StatusOK, "Hello %s %s", firstname, lastname)
+		id := c.Query("id")
+		page := c.DefaultQuery("page", "0")
+		name := c.PostForm("name")
+		message := c.PostForm("message")
+
+		fmt.Printf("id: %s; page: %s; name: %s; message: %s", id, page, name, message)
 	})
 	router.Run(":8080")
 }
